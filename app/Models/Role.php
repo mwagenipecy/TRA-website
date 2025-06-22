@@ -41,6 +41,12 @@ class Role extends Model
             ->withTimestamps();
     }
 
+
+    public function permissions(): BelongsToMany
+{
+    return $this->belongsToMany(Permission::class); // or the correct pivot table name
+}
+
     /**
      * Check if role has a specific permission.
      */

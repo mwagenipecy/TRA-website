@@ -65,14 +65,14 @@
                     </li>
                  
                     <li>
-                        <a href="{{ route('institutions.create') }}" 
+                        <a href="{{ url('institutions/create') }}" 
                            class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('institutions.create') ? 'active' : '' }}">
                             <i class="fas fa-plus w-4 h-4 mr-3"></i>
                             <span>Add Institution</span> 
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('institutions.approval') }}" 
+                        <a href="{{ url('institutions/pending-approval') }}" 
                            class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('institutions.approval') ? 'active' : '' }}">
                             <i class="fas fa-check-circle w-4 h-4 mr-3"></i>
                             <span>Pending Approvals</span>

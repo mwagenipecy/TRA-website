@@ -174,7 +174,7 @@
 
                     <!-- Center - Quick Actions for Mobile -->
                     <div class="md:hidden text-center">
-                        <span class="text-xs font-semibold">TRA CLUBS SYSTEM</span>
+                        <span class="text-xs font-semibold"> TAX CLUBS</span>
                     </div>
                     
                     <!-- Right Side - Utility Links -->
@@ -225,14 +225,15 @@
                     <!-- Logo Component - Left Side -->
                     <div class="flex items-center space-x-3 sm:space-x-4 animate-fade-in-left">
                         <!-- Logo Image Placeholder -->
-                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-tra-yellow rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                            <svg class="w-7 h-7 sm:w-8 sm:h-8 text-tra-black" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2L3 7v10c0 5.55 3.84 9.739 9 9.739S21 22.55 21 17V7l-9-5zm0 2.236L19 8.236v8.764c0 4.45-3.05 7.764-7 7.764s-7-3.314-7-7.764V8.236l7-4zm0 2.764c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
-                            </svg>
-                        </div>
+                        <!-- <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"> -->
+                            
+                        <img src="{{ asset('/logo/traIcon-removebg-preview.png') }}" class="h-16 " />
+                        <!-- </div> -->
+
+
                         <div>
-                            <div class="text-xl sm:text-2xl lg:text-3xl font-bold text-tra-black tracking-tight">TRA CLUBS</div>
-                            <div class="text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-widest">Management System</div>
+                            <div class="text-xl sm:text-2xl lg:text-3xl font-bold text-tra-black tracking-tight">Tanzania Tax Clubs</div>
+                            <!-- <div class="text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-widest">Management System</div> -->
                         </div>
                     </div>
                     
@@ -257,10 +258,7 @@
                                 <span class="relative z-10">Events</span>
                                 <div class="absolute inset-0 bg-tra-yellow rounded-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 opacity-10"></div>
                             </a>
-                            <a href="#funding" class="nav-link group relative px-4 py-2 text-tra-black hover:text-tra-yellow transition-all duration-300 font-semibold text-base">
-                                <span class="relative z-10">Funding</span>
-                                <div class="absolute inset-0 bg-tra-yellow rounded-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 opacity-10"></div>
-                            </a>
+                          
                         </div>
                         
                         <!-- Search & Auth Buttons -->
@@ -407,10 +405,10 @@
                 
                 <!-- Demo images for preview -->
                 <div class="slide-image active" data-slide="0">
-                    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070" alt="Traffic Safety" class="w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070" alt="Tax" class="w-full h-full object-cover">
                 </div>
                 <div class="slide-image" data-slide="1">
-                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069" alt="Road Safety Education" class="w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069" alt="Tax Education" class="w-full h-full object-cover">
                 </div>
                 <div class="slide-image" data-slide="2">
                     <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070" alt="Student Activities" class="w-full h-full object-cover">
@@ -442,7 +440,7 @@
                             <div class="glass-panel px-4 sm:px-6 py-2 sm:py-3 rounded-full inline-flex items-center space-x-2 group hover:scale-105 transition-transform duration-300">
                                 <div class="w-2 h-2 bg-tra-yellow rounded-full animate-pulse-slow"></div>
                                 <span class="text-tra-yellow font-semibold text-xs sm:text-sm uppercase tracking-wider">
-                                    Empowering Road Safety
+                                    Empowering Tax
                                 </span>
                                 <svg class="w-4 h-4 text-tra-yellow group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -454,7 +452,7 @@
                         <div class="space-y-2">
                             <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
                                 <span class="block text-white animate-text-reveal">
-                                    Building Safer
+                                    Building Tax
                                 </span>
                                 <span class="block text-gradient animate-text-reveal" style="animation-delay: 0.2s;">
                                     Communities
@@ -467,7 +465,7 @@
                         
                         <!-- Description -->
                         <p class="text-gray-300 text-base sm:text-lg lg:text-xl max-w-xl leading-relaxed animate-slide-up" style="animation-delay: 0.6s;">
-                            Tanzania's premier platform connecting traffic safety clubs across educational institutions. Join us in creating a culture of road safety awareness.
+                            Tanzania's premier platform connecting Tax clubs across educational institutions. Join us in creating a culture of Tax awareness.
                         </p>
                         
                         <!-- CTA Buttons -->
@@ -599,8 +597,8 @@
             </h2>
             
             <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto animate-fade-in-up" style="animation-delay: 0.1s;">
-                Discover our extensive network of traffic safety clubs in universities and schools, 
-                working together to create safer roads for all Tanzanians.
+                Discover our extensive network of Tax clubs in universities and schools, 
+                working together to create Tax roads for all Tanzanians.
             </p>
         </div>
 
@@ -749,7 +747,7 @@
                             </div>
                             
                             <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-                                {{ $university->description ?? 'Promoting road safety awareness and education through various programs and initiatives.' }}
+                                {{ $university->description ?? 'Promoting Tax awareness and education through various programs and initiatives.' }}
                             </p>
                             
                             <div class="flex items-center justify-between mb-4">
@@ -813,7 +811,7 @@
                                 </div>
                                 
                                 <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-                                    Promoting road safety awareness and education through various programs and initiatives across campus.
+                                    Promoting Tax awareness and education through various programs and initiatives across campus.
                                 </p>
                                 
                                 <div class="flex items-center justify-between mb-4">
@@ -1023,7 +1021,7 @@
                             {{ $featuredClub->name ?? 'University of Dar es Salaam TRA Club' }}
                         </h3>
                         <p class="text-gray-300 mb-6 leading-relaxed">
-                            {{ $featuredClub->achievement ?? 'Recognized for outstanding contribution to road safety education with over 50 awareness campaigns conducted this year, reaching more than 10,000 students and community members.' }}
+                            {{ $featuredClub->achievement ?? 'Recognized for outstanding contribution to Tax education with over 50 awareness campaigns conducted this year, reaching more than 10,000 students and community members.' }}
                         </p>
                         <div class="flex flex-wrap gap-4">
                             <div class="flex items-center space-x-2">
@@ -1206,7 +1204,7 @@
             </h2>
             
             <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto animate-fade-in-up" style="animation-delay: 0.1s;">
-                Join our upcoming road safety events and activities. From workshops to awareness campaigns, 
+                Join our upcoming Tax events and activities. From workshops to awareness campaigns, 
                 there's always something happening in our community.
             </p>
         </div>
@@ -1259,10 +1257,10 @@
                             <span class="bg-white/20 text-tra-black px-3 py-1 rounded-full text-xs font-bold">Limited Seats</span>
                         </div>
                         <h3 class="text-2xl sm:text-3xl font-bold text-tra-black mb-4">
-                            {{ $featuredEvent->title ?? 'National Road Safety Awareness Week 2025' }}
+                            {{ $featuredEvent->title ?? 'National Tax Awareness Week 2025' }}
                         </h3>
                         <p class="text-tra-black/80 mb-6 text-base sm:text-lg">
-                            {{ $featuredEvent->description ?? 'Join us for a week-long series of activities focused on promoting road safety across Tanzania. Featuring expert speakers, interactive workshops, and community outreach programs.' }}
+                            {{ $featuredEvent->description ?? 'Join us for a week-long series of activities focused on promoting Tax across Tanzania. Featuring expert speakers, interactive workshops, and community outreach programs.' }}
                         </p>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                             <div class="flex items-center space-x-2">
@@ -1372,9 +1370,9 @@
                 @php
                     $defaultEvents = [
                         [
-                            'title' => 'Road Safety Workshop for Students',
+                            'title' => 'Tax Workshop for Students',
                             'category' => 'workshop',
-                            'description' => 'Interactive workshop covering essential road safety rules, defensive driving techniques, and first aid basics.',
+                            'description' => 'Interactive workshop covering essential Tax rules, defensive driving techniques, and first aid basics.',
                             'date' => '20',
                             'month' => 'Mar',
                             'time' => '9:00 AM - 12:00 PM',
@@ -1386,7 +1384,7 @@
                         [
                             'title' => 'Community Traffic Awareness Campaign',
                             'category' => 'campaign',
-                            'description' => 'Join us in spreading road safety awareness in local communities through interactive demonstrations.',
+                            'description' => 'Join us in spreading Tax awareness in local communities through interactive demonstrations.',
                             'date' => '25',
                             'month' => 'Mar',
                             'time' => '8:00 AM - 6:00 PM',
@@ -1411,7 +1409,7 @@
                         [
                             'title' => 'Inter-School Safety Quiz Competition',
                             'category' => 'competition',
-                            'description' => 'Test your road safety knowledge and compete for exciting prizes in this inter-school competition.',
+                            'description' => 'Test your Tax knowledge and compete for exciting prizes in this inter-school competition.',
                             'date' => '02',
                             'month' => 'Apr',
                             'time' => '10:00 AM - 4:00 PM',
@@ -1421,9 +1419,9 @@
                             'is_free' => true
                         ],
                         [
-                            'title' => 'Road Safety Technology Seminar',
+                            'title' => 'Tax Technology Seminar',
                             'category' => 'seminar',
-                            'description' => 'Explore the latest technologies in road safety, including smart traffic systems and vehicle safety features.',
+                            'description' => 'Explore the latest technologies in Tax, including smart traffic systems and vehicle safety features.',
                             'date' => '05',
                             'month' => 'Apr',
                             'time' => '1:00 PM - 5:00 PM',
@@ -1659,7 +1657,7 @@
                         </div>
                     </div>
                     <p class="text-tra-yellow/80 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
-                        Connecting traffic safety clubs across Tanzania for a safer tomorrow through education, innovation, and community engagement.
+                        Connecting Tax clubs across Tanzania for a Tax tomorrow through education, innovation, and community engagement.
                     </p>
                     <div class="flex space-x-3 sm:space-x-4">
                         <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 bg-tra-yellow/20 rounded-lg flex items-center justify-center text-tra-yellow hover:bg-tra-yellow hover:text-tra-black transition-all duration-300">
