@@ -273,12 +273,12 @@
                             
                             <!-- Desktop Auth Buttons -->
                             <div class="hidden md:flex items-center space-x-3">
-                                <button class="bg-tra-yellow text-tra-black px-5 lg:px-6 py-2.5 rounded-lg font-semibold hover:bg-yellow-400 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg text-sm">
+                                <a href="{{ route('login') }}" class="bg-tra-yellow text-tra-black px-5 lg:px-6 py-2.5 rounded-lg font-semibold hover:bg-yellow-400 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg text-sm">
                                     Login
-                                </button>
-                                <button class="border-2 border-tra-black text-tra-black px-5 lg:px-6 py-2.5 rounded-lg font-semibold hover:bg-tra-black hover:text-white transition-all duration-300 hover:scale-105 text-sm">
+    </a>
+                                <a  href="{{ route('register') }}" class="border-2 border-tra-black text-tra-black px-5 lg:px-6 py-2.5 rounded-lg font-semibold hover:bg-tra-black hover:text-white transition-all duration-300 hover:scale-105 text-sm">
                                     Register
-                                </button>
+    </a>
                             </div>
                             
                             <!-- Mobile Menu Button -->
@@ -375,12 +375,12 @@
                     
                     <!-- Mobile Action Buttons -->
                     <div class="border-t border-gray-200 pt-6 space-y-3">
-                        <button class="w-full bg-tra-yellow text-tra-black py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-all duration-300 shadow-md">
+                        <a href="{{ asset('login') }}" class="w-full bg-tra-yellow text-tra-black py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-all duration-300 shadow-md">
                             Login
-                        </button>
-                        <button class="w-full border-2 border-tra-black text-tra-black py-3 rounded-lg font-semibold hover:bg-tra-black hover:text-white transition-all duration-300">
+    </a>
+                        <a href="{{ asset('register') }}" class="w-full border-2 border-tra-black text-tra-black py-3 rounded-lg font-semibold hover:bg-tra-black hover:text-white transition-all duration-300">
                             Register
-                        </button>
+    </a>
                     </div>
                 </div>
             </div>
@@ -593,7 +593,7 @@
             </div>
             
             <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-tra-black mb-4 animate-fade-in-up">
-                TRA Clubs Across Tanzania
+                Tax Clubs Across Tanzania
             </h2>
             
             <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto animate-fade-in-up" style="animation-delay: 0.1s;">
@@ -1018,7 +1018,7 @@
                             🏆 Club of the Month
                         </span>
                         <h3 class="text-2xl sm:text-3xl font-bold mb-4">
-                            {{ $featuredClub->name ?? 'University of Dar es Salaam TRA Club' }}
+                            {{ $featuredClub->name ?? 'University of Dar es Salaam Tax Club' }}
                         </h3>
                         <p class="text-gray-300 mb-6 leading-relaxed">
                             {{ $featuredClub->achievement ?? 'Recognized for outstanding contribution to Tax education with over 50 awareness campaigns conducted this year, reaching more than 10,000 students and community members.' }}
@@ -1046,7 +1046,7 @@
                     </div>
                     <div class="w-full lg:w-96 h-64 bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden">
                         <img 
-                            src="{{ asset($featuredClub->image ?? 'images/featured-club.jpg') }}" 
+                            src="{{ asset($featuredClub->image ?? '/image/freepik_assistant_1750630100358.png') }}" 
                             alt="Featured Club"
                             class="w-full h-full object-cover"
                         >
