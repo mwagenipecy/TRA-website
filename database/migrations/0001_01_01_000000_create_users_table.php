@@ -17,11 +17,20 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone')->nullable();
+            $table->string('national_id')->nullable()->unique();
+            $table->date('date_of_birth')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->enum('role', ['student', 'leader', 'supervisor', 'tra_officer'])->default('student');
+            $table->enum('status', ['active', 'inactive', 'pending', 'suspended'])->default('pending');
+            $table->string('profile_photo')->nullable();
+            $table->text('bio')->nullable();
+            $table->json('permissions')->nullable();
+            $table->timestamp('last_login_at')->nullable();
             $table->rememberToken();
-            $table->foreignId('current_team_id')->nullable();
-            $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
         });
+        
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
