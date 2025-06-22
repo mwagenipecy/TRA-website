@@ -115,10 +115,10 @@ class Registrations extends Component
         $registration = EventRegistration::findOrFail($registrationId);
         
         // Check permissions
-        if (!$this->canManageRegistration($registration)) {
-            session()->flash('error', 'You do not have permission to approve this registration.');
-            return;
-        }
+        // if (!$this->canManageRegistration($registration)) {
+        //     session()->flash('error', 'You do not have permission to approve this registration.');
+        //     return;
+        // }
 
         DB::transaction(function () use ($registration, $notes) {
             $registration->update([

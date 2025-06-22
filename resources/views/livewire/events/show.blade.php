@@ -1,4 +1,3 @@
-<div>
 <div class="max-w-6xl mx-auto space-y-6">
     <!-- Event Header -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
@@ -172,11 +171,14 @@
             </div>
 
             <!-- Event Objectives -->
-            @if($event->objectives && count(json_decode($event->objectives, true)) > 0)
+            @php
+                $objectives = is_array($event->objectives) ? $event->objectives : (is_string($event->objectives) ? json_decode($event->objectives, true) : []);
+            @endphp
+            @if($objectives && count($objectives) > 0)
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Objectives</h2>
                     <ul class="space-y-2">
-                        @foreach(json_decode($event->objectives, true) as $objective)
+                        @foreach($objectives as $objective)
                             <li class="flex items-start">
                                 <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
                                 <span class="text-gray-700">{{ $objective }}</span>
@@ -187,11 +189,14 @@
             @endif
 
             <!-- Requirements -->
-            @if($event->requirements && count(json_decode($event->requirements, true)) > 0)
+            @php
+                $requirements = is_array($event->requirements) ? $event->requirements : (is_string($event->requirements) ? json_decode($event->requirements, true) : []);
+            @endphp
+            @if($requirements && count($requirements) > 0)
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Requirements</h2>
                     <ul class="space-y-2">
-                        @foreach(json_decode($event->requirements, true) as $requirement)
+                        @foreach($requirements as $requirement)
                             <li class="flex items-start">
                                 <i class="fas fa-exclamation-circle text-yellow-500 mr-3 mt-1"></i>
                                 <span class="text-gray-700">{{ $requirement }}</span>
@@ -202,11 +207,14 @@
             @endif
 
             <!-- Target Audience -->
-            @if($event->target_audience && count(json_decode($event->target_audience, true)) > 0)
+            @php
+                $targetAudience = is_array($event->target_audience) ? $event->target_audience : (is_string($event->target_audience) ? json_decode($event->target_audience, true) : []);
+            @endphp
+            @if($targetAudience && count($targetAudience) > 0)
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Target Audience</h2>
                     <div class="flex flex-wrap gap-2">
-                        @foreach(json_decode($event->target_audience, true) as $audience)
+                        @foreach($targetAudience as $audience)
                             <span class="bg-blue-100 text-blue-800 px-3 py-1 text-sm font-medium rounded-full">
                                 {{ $audience }}
                             </span>
@@ -390,11 +398,14 @@
             @endif
 
             <!-- Tags -->
-            @if($event->tags && count(json_decode($event->tags, true)) > 0)
+            @php
+                $tags = is_array($event->tags) ? $event->tags : (is_string($event->tags) ? json_decode($event->tags, true) : []);
+            @endphp
+            @if($tags && count($tags) > 0)
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Tags</h3>
                     <div class="flex flex-wrap gap-2">
-                        @foreach(json_decode($event->tags, true) as $tag)
+                        @foreach($tags as $tag)
                             <span class="bg-gray-100 text-gray-700 px-3 py-1 text-sm rounded-full">
                                 #{{ $tag }}
                             </span>
@@ -684,5 +695,3 @@ window.addEventListener('copy-success', function() {
     alert('Link copied to clipboard!');
 });
 </script>
-
-</div>

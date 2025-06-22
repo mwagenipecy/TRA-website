@@ -460,7 +460,7 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Action</label>
-                                    <select wire:model="registrationAction" 
+                                    <select wire:model.live="registrationAction" 
                                             class="w-full rounded-lg border-gray-300 focus:border-yellow-500 focus:ring-yellow-500">
                                         <option value="">Select action</option>
                                         <option value="approve">Approve Registration</option>

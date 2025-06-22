@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -165,7 +169,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-            Route::get('/{event}', [ 'show'])->name('show');
+            Route::get('/{event}', [EventController::class, 'show'])->name('show');
+
+
             // Registration routes (all authenticated users)
             Route::post('/{event}/register', [ 'register'])->name('register');
             Route::delete('/{event}/unregister', [ 'unregister'])->name('unregister');
@@ -192,15 +198,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
    // });
     
     // Budget Management Routes
-    Route::middleware('can:view-budgets')->group(function () {
+   // Route::middleware('can:view-budgets')->group(function () {
         Route::prefix('budgets')->name('budgets.')->group(function () {
-            Route::get('/', [ 'index'])->name('index');
-            Route::get('/yearly-plans', [ 'yearlyPlans'])->name('yearly');
-            Route::get('/{budget}', [ 'show'])->name('show');
+            Route::get('/', [BudgetController::class, 'index'])->name('index');
+            Route::get('/create', [BudgetController::class, 'create'])->name('create');
+            Route::get('/pending-approval', [BudgetController::class, 'pendingApproval'])->name('pending');
+            Route::get('/yearly-plans', [BudgetController::class, 'yearlyPlans'])->name('yearly');
+
+
+            Route::get('/{budget}', [ BudgetController::class,'show'])->name('show');
             
             // Creation and management routes
             Route::middleware('can:manage-budgets')->group(function () {
-                Route::get('/create', [ 'create'])->name('create');
                 Route::post('/', [ 'store'])->name('store');
                 Route::get('/{budget}/edit', [ 'edit'])->name('edit');
                 Route::patch('/{budget}', [ 'update'])->name('update');
@@ -213,7 +222,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             
             // Approval routes (TRA Officers only)
             Route::middleware('can:approve-budgets')->group(function () {
-                Route::get('/pending-approval', [ 'pendingApproval'])->name('pending');
                 Route::patch('/{budget}/approve', [ 'approve'])->name('approve');
                 Route::patch('/{budget}/reject', [ 'reject'])->name('reject');
                 Route::post('/{budget}/add-comment', [ 'addComment'])->name('add-comment');
@@ -227,7 +235,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/export/pdf', [ 'exportPdf'])->name('export.pdf');
             Route::get('/export/csv', [ 'exportCsv'])->name('export.csv');
         });
-    });
+  //  });
     
     // Reports & Analytics Routes
     Route::middleware('can:view-reports')->group(function () {
@@ -252,17 +260,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
     
+
+
     // Certificate Routes
     Route::prefix('certificates')->name('certificates.')->group(function () {
-        Route::get('/', [ 'index'])->name('index');
+        Route::get('/', [CertificateController::class, 'index'])->name('index');
+        Route::post('/create', [CertificateController::class ,'create'])->name('create');
+        Route::get('/{certificate}/verify', [CertificateController::class , 'verify'])->name('verify');
+
+
+
         Route::get('/my-certificates', [ 'myCertificates'])->name('my');
         Route::get('/{certificate}', [ 'show'])->name('show');
         Route::get('/{certificate}/download', [ 'download'])->name('download');
-        Route::get('/{certificate}/verify', [ 'verify'])->name('verify');
         
         // Management routes (Leaders and TRA Officers)
         Route::middleware('can:manage-certificates')->group(function () {
-            Route::post('/issue', [ 'issue'])->name('issue');
+           // Route::post('/issue', [ 'issue'])->name('issue');
             Route::post('/bulk-issue', [ 'bulkIssue'])->name('bulk-issue');
             Route::patch('/{certificate}/revoke', [ 'revoke'])->name('revoke');
             Route::get('/templates/manage', [ 'manageTemplates'])->name('templates.manage');
@@ -272,7 +286,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // Notification Routes
     Route::prefix('notifications')->name('notifications.')->group(function () {
-        Route::get('/', [ 'index'])->name('index');
+        Route::get('/', [ NotificationController::class,'index'])->name('index');
         Route::patch('/{notification}/read', [ 'markAsRead'])->name('read');
         Route::patch('/mark-all-read', [ 'markAllAsRead'])->name('mark-all-read');
         Route::delete('/{notification}', [ 'destroy'])->name('destroy');
@@ -295,11 +309,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // System Administration Routes (TRA Officers Only)
-Route::middleware(['auth', 'can:system-admin'])->prefix('admin')->name('admin.')->group(function () {
+//Route::middleware(['auth', 'can:system-admin'])->prefix('admin')->name('admin.')->group(function () {
     
     // User Management
     Route::prefix('users')->name('users.')->group(function () {
-        Route::get('/', [ 'users'])->name('index');
+        Route::get('/', [ SettingsController::class,'users'])->name('index');
         Route::get('/create', [ 'createUser'])->name('create');
         Route::post('/', [ 'storeUser'])->name('store');
         Route::get('/{user}', [ 'showUser'])->name('show');
@@ -311,9 +325,17 @@ Route::middleware(['auth', 'can:system-admin'])->prefix('admin')->name('admin.')
         Route::post('/{user}/impersonate', [ 'impersonateUser'])->name('impersonate');
     });
     
+
+    Route::get('/system-settings', [ SettingsController::class,'settings'])->name('system.setting');
+
+
+    Route::get('/system-logs', [ SettingsController::class,'systemLogs'])->name('system.logs');
+
     // Roles & Permissions Management
     Route::prefix('roles')->name('roles.')->group(function () {
-        Route::get('/', [ 'roles'])->name('index');
+        Route::get('/', [ SettingsController::class, 'roles'])->name('index');
+
+
         Route::get('/create', [ 'createRole'])->name('create');
         Route::post('/', [ 'storeRole'])->name('store');
         Route::get('/{role}/edit', [ 'editRole'])->name('edit');
@@ -349,7 +371,7 @@ Route::middleware(['auth', 'can:system-admin'])->prefix('admin')->name('admin.')
     // System Statistics
     Route::get('/statistics', [ 'systemStatistics'])->name('statistics');
     Route::get('/health-check', [ 'healthCheck'])->name('health-check');
-});
+//});
 
 // API Routes for AJAX calls
 Route::middleware(['auth', 'api'])->prefix('api')->name('api.')->group(function () {

@@ -162,6 +162,32 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function currentInstitution()
+    {
+        // First, get the member record
+        $member = $this->member()->where('status', 'active')->first();
+        
+        if (!$member) {
+            return null;
+        }
+
+        // Return the institution relationship through the member
+        return $member->institution();
+    }
+
+
+    public function certificates()
+{
+    return $this->hasMany(Certificate::class);
+}
+
+public function issuedCertificates()
+{
+    return $this->hasMany(Certificate::class, 'issued_by');
+}
+
+
+
     public function members(): HasMany
     {
         return $this->hasMany(Member::class);

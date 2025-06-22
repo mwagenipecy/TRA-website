@@ -67,6 +67,16 @@ class Budget extends Model
     /**
      * Boot the model.
      */
+
+
+
+
+     public function budgetItems()
+     {
+         return $this->hasMany(BudgetItem::class);
+     }
+
+     
     protected static function boot()
     {
         parent::boot();

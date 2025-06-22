@@ -277,6 +277,7 @@
                     <span class="text-gray-500 text-xs font-semibold uppercase tracking-wide">System Administration</span>
                 </div>
             </li>
+
             <li x-data="{ open: {{ request()->routeIs('admin.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" 
                         class="menu-item w-full flex items-center justify-between px-6 py-3 text-gray-300 hover:text-white {{ request()->routeIs('admin.*') ? 'active' : '' }}">
@@ -286,36 +287,40 @@
                     </div>
                     <i class="fas fa-chevron-down transition-transform duration-200" :class="{ 'rotate-180': open }"></i>
                 </button>
+
+
                 <ul class="submenu pl-4" :class="{ 'open': open }">
                     <li>
-                        <a href=" " 
-                           class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('admin.users') ? 'active' : '' }}">
+                        <a href="{{ url('users') }}" 
+                           class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('users.users') ? 'active' : '' }}">
                             <i class="fas fa-user-cog w-4 h-4 mr-3"></i>
                             <span>User Management</span>
                         </a>
                     </li>
                     <li>
-                        <a href=" " 
+                        <a href="{{ url('roles') }}" 
                            class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('admin.roles') ? 'active' : '' }}">
                             <i class="fas fa-shield-alt w-4 h-4 mr-3"></i>
                             <span>Roles & Permissions</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" 
+                        <a href="{{ url('system-settings') }}" 
                            class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                             <i class="fas fa-sliders-h w-4 h-4 mr-3"></i>
                             <span>System Settings</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" 
+                        <a href="{{ url('system-logs') }}" 
                            class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('admin.audit') ? 'active' : '' }}">
                             <i class="fas fa-history w-4 h-4 mr-3"></i>
                             <span>Audit Logs</span>
                         </a>
                     </li>
                 </ul>
+
+
             </li>
         </ul>
     </nav>

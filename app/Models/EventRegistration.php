@@ -74,6 +74,12 @@ class EventRegistration extends Model
         return $this->belongsTo(Event::class);
     }
 
+
+    public function approvedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+    
     /**
      * Get the user who registered.
      */

@@ -44,6 +44,15 @@ class Activity extends Model
     }
 
     /**
+     * Get the user who performed the activity (alias for compatibility).
+     * This provides compatibility with spatie/laravel-activitylog package naming.
+     */
+    public function causer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
      * Get the institution related to the activity.
      */
     public function institution(): BelongsTo
@@ -125,6 +134,13 @@ class Activity extends Model
             'member_approved' => 'Member Approved',
             'institution_approved' => 'Institution Approved',
             'certificate_issued' => 'Certificate Issued',
+            'login' => 'User Login',
+            'logout' => 'User Logout',
+            'created' => 'Record Created',
+            'updated' => 'Record Updated',
+            'deleted' => 'Record Deleted',
+            'exported' => 'Data Exported',
+            'imported' => 'Data Imported',
             default => 'System Activity',
         };
     }
@@ -144,7 +160,65 @@ class Activity extends Model
             'member_approved' => 'fas fa-user-check',
             'institution_approved' => 'fas fa-university',
             'certificate_issued' => 'fas fa-certificate',
+            'login' => 'fas fa-sign-in-alt',
+            'logout' => 'fas fa-sign-out-alt',
+            'created' => 'fas fa-plus-circle',
+            'updated' => 'fas fa-edit',
+            'deleted' => 'fas fa-trash',
+            'exported' => 'fas fa-download',
+            'imported' => 'fas fa-upload',
             default => 'fas fa-info-circle',
         };
+    }
+
+    /**
+     * Get event attribute (alias for type for compatibility).
+     */
+    public function getEventAttribute(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * Get causer_id attribute (alias for user_id for compatibility).
+     */
+    public function getCauserIdAttribute(): ?int
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * Get extra property from properties array.
+     */
+    public function getExtraProperty(string $key, $default = null)
+    {
+        return data_get($this->properties, $key, $default);
+    }
+
+    /**
+     * Set extra property in properties array.
+     */
+    public function setExtraProperty(string $key, $value): self
+    {
+        $properties = $this->properties ?? [];
+        data_set($properties, $key, $value);
+        $this->properties = $properties;
+        return $this;
+    }
+
+    /**
+     * Get the created_at attribute (alias for performed_at for compatibility).
+     */
+    public function getCreatedAtAttribute()
+    {
+        return $this->performed_at;
+    }
+
+    /**
+     * Get batch_uuid attribute (for compatibility, returns null as not in schema).
+     */
+    public function getBatchUuidAttribute(): ?string
+    {
+        return $this->getExtraProperty('batch_uuid');
     }
 }

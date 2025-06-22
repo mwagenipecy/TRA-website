@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -25,5 +26,12 @@ class EventController extends Controller
     public function registrations(){
 
         return view('pages.events.registrations');
+    }
+
+
+    public function show($id){
+
+        $event=Event::findOrFail($id);
+        return view('pages.events.show', compact('event'));
     }
 }
