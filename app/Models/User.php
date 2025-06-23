@@ -401,7 +401,7 @@ public function issuedCertificates()
      */
     public function isTraOfficer(): bool
     {
-        return true; // $this->hasRole('tra_officer');
+        return  $this->hasRole('tra_officer');
     }
 
     /**
@@ -409,7 +409,7 @@ public function issuedCertificates()
      */
     public function isLeader(): bool
     {
-        return true; // $this->hasAnyRole(['leader', 'supervisor']);
+        return  $this->hasAnyRole(['leader', 'supervisor']);
     }
 
     /**

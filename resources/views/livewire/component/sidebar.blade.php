@@ -6,8 +6,9 @@
     <!-- Logo Section -->
     <div class="p-6 border-b border-gray-700">
         <div class="flex items-center">
-            <div class="w-10 h-10 bg-primary-yellow rounded-full flex items-center justify-center mr-3">
-                <span class="text-primary-black font-bold text-lg">VK</span>
+            <div class="w-12 h-12 bg-white  rounded-full flex items-center justify-center mr-3">
+                <!-- <span class="text-primary-black font-bold text-lg">VK</span> -->
+                <img src="{{ asset('/logo/traIcon-removebg-preview.png') }}"    />
             </div>
             <div class="flex flex-col">
                 <span class="text-primary-yellow font-bold text-lg">Vilabu vya Kodi</span>
