@@ -23,6 +23,11 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/user-dashboard',function(){ return redirect('dashboard'); })->name('verification.verify');
+
+
+
 });
 
 
@@ -92,6 +97,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/update', [ 'update'])->name('update');
         Route::delete('/delete', [ 'destroy'])->name('destroy');
     });
+
+
+
+    Route::get('institutions/approval',  [ InstitutionController::class,'pendingApproval'])->name('institutions.approval');
+
+    Route::get('institutions/create', [InstitutionController::class, 'createForm'])->name('institutions.create');
+
     
     // Institution Management Routes
   //  Route::middleware('can:view-institutions')->group(function () {
@@ -100,8 +112,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [InstitutionController::class, 'index'])->name('index');
             Route::get('/{institution}', [InstitutionController::class, 'show'])->name('show');
             
-            Route::get('/create', [InstitutionController::class, 'createForm'])->name('create');
-            Route::get('/pending-approval', [ InstitutionController::class,'pendingApproval'])->name('approval');
+                 
+
+
+                //  [ InstitutionController::class,'pendingApproval']
 
 
             // Management routes (Leaders and TRA Officers)
@@ -264,12 +278,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
 
 
+    Route::get('certificates/create', [CertificateController::class ,'create'])->name('certificates.create');
+
+    Route::get('/templates/manage', [CertificateController::class , 'manageTemplates'])->name('templates.manage');
+    Route::get('/gallery/manage', [CertificateController::class , 'manageGallery'])->name('certificates.gallery');
+
+
+    
+
     // Certificate Routes
     Route::prefix('certificates')->name('certificates.')->group(function () {
         Route::get('/', [CertificateController::class, 'index'])->name('index');
-        Route::post('/create', [CertificateController::class ,'create'])->name('create');
         Route::get('/{certificate}/verify', [CertificateController::class , 'verify'])->name('verify');
-
 
 
         Route::get('/my-certificates', [ 'myCertificates'])->name('my');
@@ -281,7 +301,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
            // Route::post('/issue', [ 'issue'])->name('issue');
             Route::post('/bulk-issue', [ 'bulkIssue'])->name('bulk-issue');
             Route::patch('/{certificate}/revoke', [ 'revoke'])->name('revoke');
-            Route::get('/templates/manage', [ 'manageTemplates'])->name('templates.manage');
             Route::post('/templates', [ 'createTemplate'])->name('templates.create');
         });
     });

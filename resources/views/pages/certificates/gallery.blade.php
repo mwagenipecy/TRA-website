@@ -18,12 +18,7 @@
 @section('content')
 
 
-
-
-<livewire:certificate.certificate-index />
-
-
-
+<livewire:certificate.certificate-gallery />
 
 
 @endsection

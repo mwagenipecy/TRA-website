@@ -4,8 +4,21 @@
         <h1 class="text-3xl font-bold text-gray-800">Certificates</h1>
         <div class="flex space-x-4">
 
+        <a href="{{ route("certificates.gallery") }}" 
+               class="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-semibold transition duration-200">
+                <i class="fas fa-plus mr-2"></i> Certificate Gallery
+            </a>
 
-        <a href="{{ route('certificates.create') }}" 
+
+
+        <a href="{{ route('templates.manage') }}" 
+               class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition duration-200">
+                <i class="fas fa-shield-alt mr-2"></i> Certificate Template
+            </a>
+
+
+
+        <a href="{{ url("certificates/create") }}" 
                class="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-semibold transition duration-200">
                 <i class="fas fa-plus mr-2"></i>Issue Certificate
             </a>
@@ -17,6 +30,8 @@
             </a>
         </div>
     </div>
+
+
 
     {{-- Filters --}}
     <div class="bg-white rounded-lg shadow-md p-6 mb-6">

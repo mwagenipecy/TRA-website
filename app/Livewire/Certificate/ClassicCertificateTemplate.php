@@ -1,6 +1,5 @@
 <?php
 
-// app/Http/Livewire/Certificate/ClassicCertificateTemplate.php
 namespace App\Livewire\Certificate;
 
 use Livewire\Component;
@@ -17,17 +16,17 @@ class ClassicCertificateTemplate extends Component
     public $certificateId;
     
     // Template customization properties
-    public $borderStyle = 'double'; // single, double, decorative
-    public $sealStyle = 'ceremonial'; // simple, ceremonial, official
-    public $colorScheme = 'amber'; // amber, gold, bronze, emerald
-    public $fontSize = 'normal'; // small, normal, large
+    public $borderStyle = 'double';
+    public $sealStyle = 'ceremonial';
+    public $colorScheme = 'amber';
+    public $fontSize = 'normal';
     public $showPattern = true;
     public $showCorners = true;
     public $showSeal = true;
     public $showVerificationCode = true;
     
     // Display options
-    public $viewMode = 'display'; // display, preview, print, customize
+    public $viewMode = 'display';
     public $showCustomization = false;
     public $isPreviewMode = false;
     
@@ -46,9 +45,9 @@ class ClassicCertificateTemplate extends Component
         'exportTemplate' => 'exportAsPdf'
     ];
 
-    public function mount($certificateId=null, $viewMode = 'display', $customizations = [])
+    public function mount($certificateId = null, $viewMode = 'display', $customizations = [])
     {
-        $this->certificateId =1; // $certificateId;
+        $this->certificateId = $certificateId ?? 1;
         $this->viewMode = $viewMode;
         
         $this->loadCertificate();
@@ -66,34 +65,33 @@ class ClassicCertificateTemplate extends Component
             'user',
             'institution',
             'issuer',
-            'event',
-            'revoker'
+            'event'
         ])->findOrFail($this->certificateId);
         
-        // Authorization check
-      //  $this->authorizeAccess();
+        // Only authorize if not in preview mode
+        if ($this->viewMode !== 'preview') {
+            $this->authorizeAccess();
+        }
     }
 
     private function authorizeAccess()
     {
-        if (!Auth::check() && $this->viewMode !== 'preview') {
+        if (!Auth::check()) {
             abort(403, 'Authentication required.');
         }
 
-        if (Auth::check()) {
-            $user = Auth::user();
-            
-            // Students can only view their own certificates
-            if ($user->role === 'student' && $this->certificate->user_id !== $user->id) {
+        $user = Auth::user();
+        
+        // Students can only view their own certificates
+        if ($user->role === 'student' && $this->certificate->user_id !== $user->id) {
+            abort(403, 'Unauthorized access.');
+        }
+        
+        // Institution staff can view certificates from their institution
+        if (in_array($user->role, ['leader', 'supervisor'])) {
+            $currentInstitution = $user->currentInstitution ?? $user->institution;
+            if (!$currentInstitution || $this->certificate->institution_id !== $currentInstitution->id) {
                 abort(403, 'Unauthorized access.');
-            }
-            
-            // Institution staff can view certificates from their institution
-            if (in_array($user->role, ['leader', 'supervisor'])) {
-                $currentInstitution = $user->currentInstitution;
-                if (!$currentInstitution || $this->certificate->institution_id !== $currentInstitution->id) {
-                    abort(403, 'Unauthorized access.');
-                }
             }
         }
     }
@@ -120,7 +118,7 @@ class ClassicCertificateTemplate extends Component
             'course_name' => $data['course_name'] ?? 'Professional Development Program',
             'duration' => $data['duration'] ?? 'Variable Duration',
             'grade' => $data['grade'] ?? 'Satisfactory',
-            'instructor' => $data['instructor'] ?? $this->certificate->issuer->name,
+            'instructor' => $data['instructor'] ?? $this->certificate->issuer->name ?? 'Unknown Instructor',
             'achievement_details' => $data['achievement_details'] ?? 'Successfully completed all required components of the program.',
             'specialization' => $data['specialization'] ?? null,
             'credits' => $data['credits'] ?? null,
@@ -132,9 +130,24 @@ class ClassicCertificateTemplate extends Component
     {
         $institution = $this->certificate->institution;
         
+        if (!$institution) {
+            $this->institutionBranding = [
+                'name' => 'Unknown Institution',
+                'code' => 'UNK',
+                'logo_url' => null,
+                'motto' => null,
+                'established' => null,
+                'colors' => [
+                    'primary' => $this->getInstitutionPrimaryColor(),
+                    'secondary' => $this->getInstitutionSecondaryColor()
+                ]
+            ];
+            return;
+        }
+        
         $this->institutionBranding = [
             'name' => $institution->name,
-            'code' => $institution->code,
+            'code' => $institution->code ?? 'N/A',
             'logo_url' => $institution->logo ?? null,
             'motto' => $institution->motto ?? null,
             'established' => $institution->established_date ? 
@@ -149,11 +162,11 @@ class ClassicCertificateTemplate extends Component
     private function calculateMetrics()
     {
         $this->certificateMetrics = [
-            'issue_age_days' => $this->certificate->issue_date->diffInDays(now()),
-            'is_expired' => $this->certificate->isExpired(),
+            'issue_age_days' => $this->certificate->issue_date ? $this->certificate->issue_date->diffInDays(now()) : 0,
+            'is_expired' => $this->certificate->expiry_date ? $this->certificate->expiry_date <= now() : false,
             'days_until_expiry' => $this->certificate->expiry_date ? 
                                   now()->diffInDays($this->certificate->expiry_date, false) : null,
-            'is_recently_issued' => $this->certificate->issue_date->diffInDays(now()) <= 30,
+            'is_recently_issued' => $this->certificate->issue_date ? $this->certificate->issue_date->diffInDays(now()) <= 30 : false,
             'academic_year' => $this->getAcademicYear(),
             'semester' => $this->getSemester()
         ];
@@ -169,7 +182,7 @@ class ClassicCertificateTemplate extends Component
     {
         if (property_exists($this, $property)) {
             $this->$property = $value;
-            $this->dispatchBrowserEvent('template-updated', [
+            $this->dispatch('template-updated', [
                 'property' => $property,
                 'value' => $value
             ]);
@@ -226,7 +239,7 @@ class ClassicCertificateTemplate extends Component
 
     private function emitStyleUpdate()
     {
-        $this->dispatchBrowserEvent('classic-template-updated', [
+        $this->dispatch('classic-template-updated', [
             'borderStyle' => $this->borderStyle,
             'sealStyle' => $this->sealStyle,
             'colorScheme' => $this->colorScheme,
@@ -243,9 +256,6 @@ class ClassicCertificateTemplate extends Component
         $this->showLoadingEffect = true;
         
         try {
-            // Here you would integrate with a PDF generation library
-            // For demonstration, we'll simulate the process
-            
             $customizations = [
                 'borderStyle' => $this->borderStyle,
                 'sealStyle' => $this->sealStyle,
@@ -262,14 +272,14 @@ class ClassicCertificateTemplate extends Component
             
             $this->showLoadingEffect = false;
             
-            $this->dispatchBrowserEvent('pdf-ready', [
+            $this->dispatch('pdf-ready', [
                 'filename' => $this->certificate->certificate_code . '_classic.pdf',
                 'message' => 'Classic certificate PDF generated successfully!'
             ]);
             
         } catch (\Exception $e) {
             $this->showLoadingEffect = false;
-            $this->dispatchBrowserEvent('pdf-error', [
+            $this->dispatch('pdf-error', [
                 'message' => 'Error generating PDF: ' . $e->getMessage()
             ]);
         }
@@ -294,6 +304,7 @@ class ClassicCertificateTemplate extends Component
     public function saveCustomization()
     {
         if (!Auth::check()) {
+            session()->flash('error', 'Authentication required to save customizations.');
             return;
         }
 
@@ -308,38 +319,95 @@ class ClassicCertificateTemplate extends Component
             'showVerificationCode' => $this->showVerificationCode
         ];
 
-        // Save to user preferences or certificate metadata
-        $this->certificate->update([
-            'template_customizations' => json_encode($customizations)
-        ]);
+        try {
+            $this->certificate->update([
+                'template_customizations' => json_encode($customizations)
+            ]);
 
-        session()->flash('message', 'Template customization saved successfully!');
+            session()->flash('message', 'Template customization saved successfully!');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error saving customizations: ' . $e->getMessage());
+        }
     }
 
     public function printCertificate()
     {
         $this->viewMode = 'print';
-        $this->dispatchBrowserEvent('print-classic-certificate', [
+        $this->dispatch('print-classic-certificate', [
             'certificateId' => $this->certificateId
         ]);
     }
 
     public function shareCertificate()
     {
-        $shareUrl = route('certificates.verify') . '?code=' . $this->certificate->certificate_code;
+        if (!$this->certificate->certificate_code) {
+            session()->flash('error', 'Certificate code not found.');
+            return;
+        }
+
+        $shareUrl = route('certificates.verify', ['code' => $this->certificate->certificate_code]);
         
-        $this->dispatchBrowserEvent('share-certificate', [
+        $this->dispatch('share-certificate', [
             'url' => $shareUrl,
             'title' => 'Classic Certificate - ' . $this->certificate->title,
-            'text' => 'Verify this authentic certificate issued to ' . $this->certificate->user->name
+            'text' => 'Verify this authentic certificate issued to ' . ($this->certificate->user->name ?? 'Unknown')
         ]);
     }
 
-    // Helper methods for template data
+    public function applyPreset($presetName)
+    {
+        switch ($presetName) {
+            case 'elegant':
+                $this->borderStyle = 'double';
+                $this->sealStyle = 'ceremonial';
+                $this->colorScheme = 'amber';
+                $this->fontSize = 'normal';
+                $this->showPattern = true;
+                $this->showCorners = true;
+                $this->showSeal = true;
+                $this->showVerificationCode = true;
+                break;
+            
+            case 'vintage':
+                $this->borderStyle = 'decorative';
+                $this->sealStyle = 'official';
+                $this->colorScheme = 'bronze';
+                $this->fontSize = 'large';
+                $this->showPattern = true;
+                $this->showCorners = true;
+                $this->showSeal = true;
+                $this->showVerificationCode = false;
+                break;
+            
+            case 'modern':
+                $this->borderStyle = 'single';
+                $this->sealStyle = 'simple';
+                $this->colorScheme = 'emerald';
+                $this->fontSize = 'normal';
+                $this->showPattern = false;
+                $this->showCorners = false;
+                $this->showSeal = true;
+                $this->showVerificationCode = true;
+                break;
+            
+            case 'minimal':
+                $this->borderStyle = 'single';
+                $this->sealStyle = 'simple';
+                $this->colorScheme = 'amber';
+                $this->fontSize = 'small';
+                $this->showPattern = false;
+                $this->showCorners = false;
+                $this->showSeal = false;
+                $this->showVerificationCode = true;
+                break;
+        }
+        
+        $this->emitStyleUpdate();
+        session()->flash('message', ucfirst($presetName) . ' preset applied successfully!');
+    }
+
     private function getInstitutionPrimaryColor()
     {
-        // You could store this in the institution model
-        // For now, return default based on color scheme
         $colors = [
             'amber' => '#f59e0b',
             'gold' => '#eab308',
@@ -364,10 +432,13 @@ class ClassicCertificateTemplate extends Component
 
     private function getAcademicYear()
     {
+        if (!$this->certificate->issue_date) {
+            return date('Y') . '-' . (date('Y') + 1);
+        }
+
         $issueDate = $this->certificate->issue_date;
         $year = $issueDate->year;
         
-        // Academic year typically starts in September
         if ($issueDate->month >= 9) {
             return $year . '-' . ($year + 1);
         } else {
@@ -377,6 +448,10 @@ class ClassicCertificateTemplate extends Component
 
     private function getSemester()
     {
+        if (!$this->certificate->issue_date) {
+            return 'Unknown';
+        }
+
         $month = $this->certificate->issue_date->month;
         
         if ($month >= 9 || $month <= 1) {
@@ -390,21 +465,16 @@ class ClassicCertificateTemplate extends Component
 
     public function getBorderClasses()
     {
-        $baseClasses = '';
-        
         switch ($this->borderStyle) {
             case 'single':
-                $baseClasses = 'border-2 border-' . $this->colorScheme . '-600';
-                break;
+                return 'border-2 border-' . $this->colorScheme . '-600';
             case 'double':
-                $baseClasses = 'border-4 border-double border-' . $this->colorScheme . '-600';
-                break;
+                return 'border-4 border-double border-' . $this->colorScheme . '-600';
             case 'decorative':
-                $baseClasses = 'border-4 border-dashed border-' . $this->colorScheme . '-600';
-                break;
+                return 'border-4 border-dashed border-' . $this->colorScheme . '-600';
+            default:
+                return 'border-4 border-double border-amber-600';
         }
-        
-        return $baseClasses;
     }
 
     public function getColorClasses()

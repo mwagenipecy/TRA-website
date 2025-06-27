@@ -35,6 +35,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'bio',
         'permissions',
         'last_login_at',
+        'institution_id',
+        'email_verified_at'
     ];
 
     /**
@@ -168,7 +170,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $member = $this->member()->where('status', 'active')->first();
         
         if (!$member) {
-            return null;
+            return [];
         }
 
         // Return the institution relationship through the member

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('bio')->nullable();
             $table->json('permissions')->nullable();
             $table->timestamp('last_login_at')->nullable();
+            $table->string('institution_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

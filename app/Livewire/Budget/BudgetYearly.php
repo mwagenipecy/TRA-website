@@ -34,7 +34,9 @@ class BudgetYearly extends Component
             
         // Role-based filtering
         if (Auth::user()->role !== 'tra_officer') {
-            $query->where('institution_id', Auth::user()->currentInstitution->id);
+
+            $query->where('institution_id', Auth::user()->currentInstitution?->id);
+       
         }
         
         $budgets = $query->get();

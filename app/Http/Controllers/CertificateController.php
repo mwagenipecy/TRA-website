@@ -28,4 +28,18 @@ class CertificateController extends Controller
         return view('pages.certificates.verify', ['id' => $id]);
 
     }
+
+
+    public function manageTemplates(){
+
+        return view('pages.certificates.template');
+    }
+
+
+    public function manageGallery(){
+
+        return view('pages.certificates.gallery');
+    }
+
+    
 }

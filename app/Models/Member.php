@@ -235,5 +235,24 @@ class Member extends Model
                     ->whereIn('institution_id', $institutionIds);
     }
 
+
+
+    public function canBeApprovedBy($user){
+
+
+     
+
+        if($user->role=='admin'){
+
+
+            return true;
+
+        }else{
+
+            return false;
+        }
+
+
+    }
     
 }

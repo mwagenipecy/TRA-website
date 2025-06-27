@@ -58,7 +58,7 @@
                 </button>
                 <ul class="submenu pl-4" :class="{ 'open': open }">
                     <li>
-                        <a href="{{ route('institutions.index') }}" 
+                        <a href="{{route('institutions.index') }}" 
                            class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('institutions.index') ? 'active' : '' }}">
                             <i class="fas fa-list w-4 h-4 mr-3"></i>
                             <span>All Institutions</span>
@@ -66,14 +66,14 @@
                     </li>
                  
                     <li>
-                        <a href="{{ url('institutions/create') }}" 
-                           class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('institutions.create') ? 'active' : '' }}">
+                        <a href="{{route('institutions.create') }}" 
+                           class="menu-itemv flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('institutions.create') ? 'active' : '' }}">
                             <i class="fas fa-plus w-4 h-4 mr-3"></i>
                             <span>Add Institution</span> 
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('institutions/pending-approval') }}" 
+                        <a href="{{ route('institutions.approval') }}" 
                            class="menu-item flex items-center px-6 py-2 text-gray-400 hover:text-white text-sm {{ request()->routeIs('institutions.approval') ? 'active' : '' }}">
                             <i class="fas fa-check-circle w-4 h-4 mr-3"></i>
                             <span>Pending Approvals</span>
